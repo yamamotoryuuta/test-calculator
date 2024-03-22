@@ -3,7 +3,6 @@ import '../styles/App.css';
 
 function App() {
   const [display, setDisplay] = useState<string>("0");
-  // const [answer, setAnswer] = useState<number>(0);
   const [firstNum, setFirstNum] = useState<number>(0);
   const [secondNum, setSecondNum] = useState<number>(0);
   const [operator, setOperator] = useState<string>("");
@@ -29,7 +28,7 @@ function App() {
 
   return (
     <div className="App">
-      <p>合計: {display}</p>
+      <p>合計: {display} <span>{ operator}</span></p>
       <button onClick={resetHndler}> C・CE</button>
 
       {
@@ -49,7 +48,7 @@ function App() {
           return (
             <button key={op} onClick={() => {
               setOperatorHandler(op);
-              setDisplay(op);
+              // setDisplay(op);
             }}>{op}</button>
           );
         })
@@ -67,6 +66,7 @@ function App() {
           answer = firstNum / secondNum;
         }
         setDisplay(answer.toString());
+        setFirstNumHandler(answer);
       }}>=</button>
     </div>
   );
