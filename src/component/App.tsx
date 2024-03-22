@@ -3,9 +3,9 @@ import "../styles/App.css";
 
 type Operator = "+" | "-" | "*" | "/" | "";
 type calcs = {
-  firstNum?: number;
-  secondNum?: number;
-  operator?: Operator;
+  firstNum: number;
+  secondNum: number;
+  operator: Operator;
 };
 
 function App() {
@@ -28,9 +28,9 @@ function App() {
 
   useEffect(() => {
     if (calcs.operator === "") {
-			setCalcs({firstNum: currentNum});
+			setCalcs({firstNum: currentNum, secondNum: calcs.secondNum, operator: calcs.operator});
 		} else {
-      setCalcs({secondNum: currentNum});
+      setCalcs({firstNum: calcs.firstNum, secondNum: currentNum, operator: calcs.operator});
     }
 
     setDisplay(currentNum.toString());
@@ -65,7 +65,7 @@ function App() {
 					<button
 						key={op}
 						onClick={() => {
-							setCalcs({ operator: op as Operator});
+							setCalcs({ firstNum: calcs.firstNum, secondNum: calcs.secondNum, operator: op as Operator});
 						}}
 					>
 						{op}
@@ -86,7 +86,7 @@ function App() {
 						answer = calcs.firstNum! / calcs.secondNum!;
 					}
 					setDisplay(answer.toString());
-					setCalcs({ operator: calcs.operator});
+					setCalcs({ firstNum: answer, secondNum: 0, operator: calcs.operator});
 				}}
 			>
 				=
