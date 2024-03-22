@@ -28,9 +28,9 @@ function App() {
 
   useEffect(() => {
     if (calcs.operator === "") {
-			setCalcs({firstNum: currentNum, secondNum: calcs.secondNum, operator: calcs.operator});
+      setCalcs({...calcs, firstNum: currentNum });
 		} else {
-      setCalcs({firstNum: calcs.firstNum, secondNum: currentNum, operator: calcs.operator});
+      setCalcs({...calcs, secondNum: currentNum });
     }
 
     setDisplay(currentNum.toString());
@@ -65,7 +65,7 @@ function App() {
 					<button
 						key={op}
 						onClick={() => {
-							setCalcs({ firstNum: calcs.firstNum, secondNum: calcs.secondNum, operator: op as Operator});
+							setCalcs({ ...calcs, operator: op as Operator});
 						}}
 					>
 						{op}
