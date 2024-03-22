@@ -3,30 +3,24 @@ import "../styles/App.css";
 
 type Operator = "+" | "-" | "*" | "/" | "";
 type calcs = {
-  firstNum: number;
-  secondNum: number;
-  operator: Operator;
+  firstNum?: number;
+  secondNum?: number;
+  operator?: Operator;
 };
 
 function App() {
 	const [display, setDisplay] = useState<string>("0");
   const [currentNum, setCurrentNum] = useState<number>(0);
-  const [operator, setOperator] = useState<Operator>("");
   const [calcs, setCalcs] = useState<calcs>({firstNum: 0, secondNum: 0, operator: ""});
 
 	const resetHndler = () => {
-    setCurrentNum(0);
-		setOperator("");
 		setDisplay("0");
+    setCurrentNum(0);
+    setCalcs({firstNum: 0, secondNum: 0, operator: ""});
   };
 
-
-	const setOperatorHandler = (op: Operator) => {
-		setOperator(op);
-	};
-
 	const setNumber = (num: number) => {
-    const current_num = operator === "" ? calcs.firstNum : calcs.secondNum;
+    const current_num = calcs.operator === "" ? calcs.firstNum! : calcs.secondNum!;
 		if (num === 0 && current_num === 0) return;
 
 		setCurrentNum(current_num * 10 + (num !== 0 ? num : 0));
@@ -34,9 +28,9 @@ function App() {
 
   useEffect(() => {
     if (calcs.operator === "") {
-			setCalcs({firstNum: currentNum, secondNum: calcs.secondNum, operator: calcs.operator});
+			setCalcs({firstNum: currentNum});
 		} else {
-      setCalcs({firstNum: calcs.firstNum, secondNum: currentNum, operator: operator});
+      setCalcs({secondNum: currentNum});
     }
 
     setDisplay(currentNum.toString());
@@ -45,7 +39,7 @@ function App() {
 	return (
 		<div className="App">
 			<p>
-				合計: {display} <span>{operator}</span>
+				合計: {display} <span>{calcs.operator}</span>
 			</p>
 			<button onClick={resetHndler}> C・CE</button>
 
@@ -71,7 +65,7 @@ function App() {
 					<button
 						key={op}
 						onClick={() => {
-							setOperatorHandler(op as Operator);
+							setCalcs({ operator: op as Operator});
 						}}
 					>
 						{op}
@@ -82,17 +76,17 @@ function App() {
 			<button
 				onClick={() => {
 					let answer = 0;
-					if (operator === "+") {
-						answer = calcs.firstNum + calcs.secondNum;
-					} else if (operator === "-") {
-						answer = calcs.firstNum - calcs.secondNum;
-					} else if (operator === "*") {
-						answer = calcs.firstNum * calcs.secondNum;
-					} else if (operator === "/") {
-						answer = calcs.firstNum / calcs.secondNum;
+					if (calcs.operator === "+") {
+						answer = calcs.firstNum! + calcs.secondNum!;
+					} else if (calcs.operator === "-") {
+						answer = calcs.firstNum! - calcs.secondNum!;
+					} else if (calcs.operator === "*") {
+						answer = calcs.firstNum! * calcs.secondNum!;
+					} else if (calcs.operator === "/") {
+						answer = calcs.firstNum! / calcs.secondNum!;
 					}
 					setDisplay(answer.toString());
-					setCalcs({firstNum: answer, secondNum: 0, operator: calcs.operator});
+					setCalcs({ operator: calcs.operator});
 				}}
 			>
 				=
