@@ -33,7 +33,7 @@ function App() {
 		} else {
       setSecondNumHandler(push_num);
     }
-    
+
     setDisplay(push_num.toString());
 	};
 
@@ -67,7 +67,6 @@ function App() {
 						key={op}
 						onClick={() => {
 							setOperatorHandler(op);
-							// setDisplay(op);
 						}}
 					>
 						{op}
