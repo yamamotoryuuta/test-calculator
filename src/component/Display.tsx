@@ -1,8 +1,14 @@
 
-function Display() {
+function Display({
+  display,
+  operator,
+}: {
+    display: string;
+    operator: string;
+}) {
   return (
     <p>
-      Display
+    合計: {display} <span>{operator}</span>
     </p>
   )
 }
