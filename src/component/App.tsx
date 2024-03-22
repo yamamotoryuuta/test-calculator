@@ -1,18 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../styles/App.css";
 
 function App() {
 	const [display, setDisplay] = useState<string>("0");
 	const [firstNum, setFirstNum] = useState<number>(0);
-	const [secondNum, setSecondNum] = useState<number>(0);
+  const [secondNum, setSecondNum] = useState<number>(0);
+  const [currentNum, setCurrentNum] = useState<number>(0);
 	const [operator, setOperator] = useState<string>("");
 
 	const resetHndler = () => {
 		setFirstNum(0);
-		setSecondNum(0);
+    setSecondNum(0);
+    setCurrentNum(0);
 		setOperator("");
 		setDisplay("0");
-	};
+  };
+
 	const setFirstNumHandler = (num: number) => {
 		setFirstNum(num);
 	};
@@ -27,15 +30,18 @@ function App() {
     const current_num = operator === "" ? firstNum : secondNum;
 		if (num === 0 && current_num === 0) return;
 
-		const push_num: number = current_num * 10 + (num !== 0 ? num : 0);
-		if (operator === "") {
-			setFirstNumHandler(push_num);
+		setCurrentNum(current_num * 10 + (num !== 0 ? num : 0));
+  };
+
+  useEffect(() => {
+    if (operator === "") {
+			setFirstNumHandler(currentNum);
 		} else {
-      setSecondNumHandler(push_num);
+      setSecondNumHandler(currentNum);
     }
 
-    setDisplay(push_num.toString());
-	};
+    setDisplay(currentNum.toString());
+  },[currentNum, operator]);
 
 	return (
 		<div className="App">
