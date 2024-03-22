@@ -19,10 +19,21 @@ function App() {
   const setOperatorHandler = (op: string) => { setOperator(op); };
 
   const setNumber = (num: number) => {
-    if (operator === "") {
-      setFirstNumHandler(firstNum * 10 + num);
+    const current_num = operator === "" ? firstNum : secondNum;
+
+    let push_num = 0;
+    if (num === 0 && current_num === 0) {
+      return;
+    } else if (num === 0 && current_num !== 0) {
+      push_num = current_num * 10;
     } else {
-      setSecondNumHandler(secondNum * 10 + num);
+      push_num = current_num * 10 + num;
+    }
+
+    if (operator === "") {
+      setFirstNumHandler(push_num);
+    } else {
+      setSecondNumHandler(push_num);
     }
   }
 
