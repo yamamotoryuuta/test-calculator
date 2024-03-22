@@ -1,47 +1,46 @@
 import { useState, useEffect } from "react";
 import "../styles/App.css";
 
+type Operator = "+" | "-" | "*" | "/" | "";
+type calcs = {
+  firstNum: number;
+  secondNum: number;
+  operator: Operator;
+};
+
 function App() {
 	const [display, setDisplay] = useState<string>("0");
-	const [firstNum, setFirstNum] = useState<number>(0);
-  const [secondNum, setSecondNum] = useState<number>(0);
   const [currentNum, setCurrentNum] = useState<number>(0);
-	const [operator, setOperator] = useState<string>("");
+  const [operator, setOperator] = useState<Operator>("");
+  const [calcs, setCalcs] = useState<calcs>({firstNum: 0, secondNum: 0, operator: ""});
 
 	const resetHndler = () => {
-		setFirstNum(0);
-    setSecondNum(0);
     setCurrentNum(0);
 		setOperator("");
 		setDisplay("0");
   };
 
-	const setFirstNumHandler = (num: number) => {
-		setFirstNum(num);
-	};
-	const setSecondNumHandler = (num: number) => {
-		setSecondNum(num);
-	};
-	const setOperatorHandler = (op: string) => {
+
+	const setOperatorHandler = (op: Operator) => {
 		setOperator(op);
 	};
 
 	const setNumber = (num: number) => {
-    const current_num = operator === "" ? firstNum : secondNum;
+    const current_num = operator === "" ? calcs.firstNum : calcs.secondNum;
 		if (num === 0 && current_num === 0) return;
 
 		setCurrentNum(current_num * 10 + (num !== 0 ? num : 0));
   };
 
   useEffect(() => {
-    if (operator === "") {
-			setFirstNumHandler(currentNum);
+    if (calcs.operator === "") {
+			setCalcs({firstNum: currentNum, secondNum: calcs.secondNum, operator: calcs.operator});
 		} else {
-      setSecondNumHandler(currentNum);
+      setCalcs({firstNum: calcs.firstNum, secondNum: currentNum, operator: operator});
     }
 
     setDisplay(currentNum.toString());
-  },[currentNum, operator]);
+  },[currentNum]);
 
 	return (
 		<div className="App">
@@ -72,7 +71,7 @@ function App() {
 					<button
 						key={op}
 						onClick={() => {
-							setOperatorHandler(op);
+							setOperatorHandler(op as Operator);
 						}}
 					>
 						{op}
@@ -84,16 +83,16 @@ function App() {
 				onClick={() => {
 					let answer = 0;
 					if (operator === "+") {
-						answer = firstNum + secondNum;
+						answer = calcs.firstNum + calcs.secondNum;
 					} else if (operator === "-") {
-						answer = firstNum - secondNum;
+						answer = calcs.firstNum - calcs.secondNum;
 					} else if (operator === "*") {
-						answer = firstNum * secondNum;
+						answer = calcs.firstNum * calcs.secondNum;
 					} else if (operator === "/") {
-						answer = firstNum / secondNum;
+						answer = calcs.firstNum / calcs.secondNum;
 					}
 					setDisplay(answer.toString());
-					setFirstNumHandler(answer);
+					setCalcs({firstNum: answer, secondNum: 0, operator: calcs.operator});
 				}}
 			>
 				=
