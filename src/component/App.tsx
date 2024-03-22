@@ -24,24 +24,17 @@ function App() {
 	};
 
 	const setNumber = (num: number) => {
-		const current_num = operator === "" ? firstNum : secondNum;
+    const current_num = operator === "" ? firstNum : secondNum;
+		if (num === 0 && current_num === 0) return;
 
-		let push_num = 0;
-		if (num === 0 && current_num === 0) {
-			return;
-		} else if (num === 0 && current_num !== 0) {
-			push_num = current_num * 10;
-		} else {
-			push_num = current_num * 10 + num;
-		}
-
+		const push_num: number = current_num * 10 + (num !== 0 ? num : 0);
 		if (operator === "") {
 			setFirstNumHandler(push_num);
-			setDisplay(push_num.toString());
 		} else {
-			setSecondNumHandler(push_num);
-			setDisplay(push_num.toString());
-		}
+      setSecondNumHandler(push_num);
+    }
+    
+    setDisplay(push_num.toString());
 	};
 
 	return (
