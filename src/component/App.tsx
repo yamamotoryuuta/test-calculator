@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import Display from "./Display";
+import Buttons from "./Buttons";
 import "../styles/App.css";
 
 type Operator = "+" | "-" | "*" | "/" | "";
@@ -12,7 +14,6 @@ type calcs = {
 
 /**
  * TODO:
- * 1, 00 機能の追加
  * ２、小数点機能の追加
  * 3, 0を押した時の処理、
  */
@@ -57,7 +58,9 @@ function App() {
   };
 
 	return (
-		<div className="App">
+    <div className="App">
+      <Display />
+      <Buttons />
 			<p>
 				合計: {display} <span>{calcs.operator}</span>
 			</p>
