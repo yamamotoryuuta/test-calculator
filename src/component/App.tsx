@@ -51,12 +51,16 @@ function App() {
 			</p>
 			<button onClick={resetHndler}> C・CE</button>
 
-			{[1, 2, 3, 4, 5, 6, 7, 8, 9, 0].map((num) => {
+			{[1, 2, 3, 4, 5, 6, 7, 8, 9, 0, "00", "."].map((num) => {
 				return (
 					<button
 						key={num}
-						onClick={() => {
-							setNumber(num);
+            onClick={() => {
+              if (num === "." || num === "00") {
+                console.log("num", num);
+              } else  {
+                typeof num === 'number' && setNumber(num);
+              }
 						}}
 					>
 						{num}
