@@ -1,7 +1,7 @@
-export type Operator = "+" | "-" | "*" | "/" | "";
+export type Operator = "+" | "-" | "*" | "/" | "_";
 
 export type Calcs = {
-  firstNum: number;
-  secondNum: number;
+  firstNum: string;
+  secondNum: string;
   operator: Operator;
 };

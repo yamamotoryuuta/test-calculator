@@ -6,7 +6,7 @@ import "../styles/App.css";
 
 function App() {
   const [display, setDisplay] = useState<string>("0");
-  const [calcs, setCalcs] = useState<Calcs>({firstNum: 0, secondNum: 0, operator: ""});
+  const [calcs, setCalcs] = useState<Calcs>({firstNum: "0", secondNum: "0", operator: "_"});
 
 	return (
     <div className="App">

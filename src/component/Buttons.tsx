@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Calcs, Operator } from "./index";
 
-type Rate = 10 | 100;
 type PrevBtn = "" | "=" | "opt";
 
 function Buttons({
@@ -24,7 +23,7 @@ function Buttons({
     setDisplay("0");
     setAutoFlg(false);
     setFloorFlg(false);
-    setCalcs({firstNum: 0, secondNum: 0, operator: ""});
+    setCalcs({firstNum: "0", secondNum: "0", operator: "_"});
   };
 
   /**
@@ -35,7 +34,7 @@ function Buttons({
     setDisplay(answer.toString());
     setAutoFlg(true);
     setPrev("=");
-    setCalcs({ firstNum: answer, secondNum: calcs.secondNum, operator: calcs.operator});
+    setCalcs({ firstNum: answer.toString(), secondNum: calcs.secondNum, operator: calcs.operator});
   }
 
   /**
@@ -43,14 +42,14 @@ function Buttons({
    * @param op 演算子
    */
   const optHandler = (op: Operator) => {
-    if (calcs.operator !== "" && calcs.secondNum !== 0) {
+    if (calcs.operator !== "_" && calcs.secondNum !== "0") {
       if (prev === "opt") {
         const answer = calcAnswer(calcs.firstNum, calcs.secondNum, calcs.operator as Operator);
         setDisplay(answer.toString());
         setAutoFlg(true);
-        setCalcs({ firstNum: answer, secondNum: 0, operator: op });
+        setCalcs({ firstNum: answer.toString(), secondNum: "0", operator: op });
       } else if (prev === "=") {
-        setCalcs({ firstNum: calcs.firstNum, secondNum: 0, operator: op });
+        setCalcs({ firstNum: calcs.firstNum, secondNum: "0", operator: op });
       }
     } else {
       setCalcs({ ...calcs, operator: op });
@@ -63,44 +62,47 @@ function Buttons({
    * @param num 数字
    * @param rate 割る数
    */
-  const numBtnHandler = (num: number, rate: Rate) => {;
-    let current_num = calcs.operator === "" ? calcs.firstNum : calcs.secondNum;
-    if (num === 0 && current_num === 0) return;
+  const numBtnHandler = (num: string) => {;
+    let current_num: string = calcs.operator === "_" ? calcs.firstNum : calcs.secondNum;
+    if (num === "0" && current_num === "0") return;
 
     if (autoFlg) {
       setAutoFlg(false);
-      current_num = 0;
+      current_num = "0";
     }
+    current_num = current_num === "0" ? num : current_num + num;
 
-    current_num = current_num * rate + (num !== 0 ? num : 0);
-
-    if (calcs.operator === "") {
+    if (calcs.operator === "_") {
       setCalcs({...calcs, firstNum: current_num });
     } else {
       setCalcs({...calcs, secondNum: current_num });
     }
   };
 
-  const floorNumHandler = (num: number, rate: Rate) => {
-    let current_num = calcs.operator === "" ? calcs.firstNum : calcs.secondNum;
-    if (num === 0 && current_num === 0) return;
+  // const floorNumHandler = (num: number, rate: Rate) => {
+  //   let current_num = calcs.operator === "" ? calcs.firstNum : calcs.secondNum;
+  //   if (num === 0 && current_num === 0) return;
 
-    if (autoFlg) {
-      setAutoFlg(false);
-      current_num = 0;
-    }
+  //   if (autoFlg) {
+  //     setAutoFlg(false);
+  //     current_num = 0;
+  //   }
 
-    if ( current_num === 0) {
-      current_num = num / rate;
-    } else {
-      current_num = current_num + (num !== 0 ? num / rate : 0);
-    }
+  //   if ( current_num === 0) {
+  //     current_num = num / rate;
+  //   } else {
+  //     current_num = current_num + (num !== 0 ? num / rate : 0);
+  //   }
 
-    if (calcs.operator === "") {
-      setCalcs({...calcs, firstNum: current_num });
-    } else {
-      setCalcs({...calcs, secondNum: current_num });
-    }
+  //   if (calcs.operator === "") {
+  //     setCalcs({...calcs, firstNum: current_num });
+  //   } else {
+  //     setCalcs({...calcs, secondNum: current_num });
+  //   }
+  // };
+
+  const NumberMarge = (text: string) => {
+
   };
 
   return (
@@ -113,16 +115,14 @@ function Buttons({
         return (
           <button key={num}
             onClick={() => {
-              const rate = num === "00" ? 100 : 10;
-              const n: number = typeof num === 'string' ? 0 : num;
-
               if (num === ".") {
                 setFloorFlg(true);
-                numBtnHandler(n, rate);
+                // numBtnHandler(n, rate);
               } else {
-                floorFlg
-                  ? floorNumHandler(n, rate)
-                  : numBtnHandler(n, rate);
+                // floorFlg
+                //   ? floorNumHandler(n, rate)
+                //   : numBtnHandler(num.toString());
+                  numBtnHandler(num.toString());
               }
             }}
           >
@@ -148,17 +148,19 @@ function Buttons({
 export default Buttons;
 
 
-function calcAnswer(firstNum: number, secondNum: number, operator: Operator) {
-  let answer = 0;
+function calcAnswer(firstNum: string, secondNum: string, operator: Operator) {
+  const firstNumInt = parseFloat(firstNum);
+  const secondNumInt = parseFloat(secondNum);
 
+  let answer = 0;
   if (operator === "+") {
-    answer = firstNum + secondNum;
+    answer = firstNumInt + secondNumInt;
   } else if (operator === "-") {
-    answer = firstNum - secondNum;
+    answer = firstNumInt - secondNumInt;
   } else if (operator === "*") {
-    answer = firstNum * secondNum;
+    answer = firstNumInt * secondNumInt;
   } else if (operator === "/") {
-    answer = firstNum / secondNum;
+    answer = firstNumInt / secondNumInt;
   }
   return answer === Infinity ? 0 : answer;
 }
