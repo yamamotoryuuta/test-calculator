@@ -4,12 +4,6 @@ import { Calcs, Operator } from "./index";
 type Rate = 10 | 100;
 type Type = "*" | "/";
 
-/**
- * TODO:
- * ２、小数点機能の追加
- * 3, 0を押した時の処理、
- */
-
 function Buttons({
   setDisplay,
   calcs,
@@ -46,8 +40,6 @@ function Buttons({
 		} else {
       setCalcs({...calcs, secondNum: current_num });
     }
-
-    // setDisplay(current_num.toString());
   };
 
   return (
