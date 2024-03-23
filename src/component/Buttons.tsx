@@ -51,27 +51,37 @@ function Buttons({
     }
   }
 
-  const numBtnHandler = (num: number | string, floorFlg: boolean) => {
-    const rate: Rate = num === "00" ? 100 : 10;
-    const type: Type = floorFlg ? "/" : "*";
-    const n: number = typeof num === 'string' ? 0 : num;
-    console.log('floorFlg', floorFlg, "type", type);
-
+  const numBtnHandler = (num: number, rate: Rate) => {;
     let current_num = calcs.operator === "" ? calcs.firstNum : calcs.secondNum;
+    if (num === 0 && current_num === 0) return;
 
-    if (n === 0 && current_num === 0) return;
     if (autoFlg) {
       setAutoFlg(false);
       current_num = 0;
     }
-    if (type === "*") current_num = current_num * rate + (n !== 0 ? n : 0);
-    if (type === "/") {
-      console.log('floorFlg', floorFlg);
-      if ( current_num === 0) {
-        current_num = n / rate;
-      } else {
-        current_num = current_num + (n !== 0 ? n / rate : 0);
-      }
+
+    current_num = current_num * rate + (num !== 0 ? num : 0);
+
+    if (calcs.operator === "") {
+      setCalcs({...calcs, firstNum: current_num });
+    } else {
+      setCalcs({...calcs, secondNum: current_num });
+    }
+  };
+
+  const floorNumHandler = (num: number, rate: Rate) => {
+    let current_num = calcs.operator === "" ? calcs.firstNum : calcs.secondNum;
+    if (num === 0 && current_num === 0) return;
+
+    if (autoFlg) {
+      setAutoFlg(false);
+      current_num = 0;
+    }
+
+    if ( current_num === 0) {
+      current_num = num / rate;
+    } else {
+      current_num = current_num + (num !== 0 ? num / rate : 0);
     }
 
     if (calcs.operator === "") {
@@ -91,11 +101,16 @@ function Buttons({
         return (
           <button key={num}
             onClick={() => {
+              const rate = num === "00" ? 100 : 10;
+              const n: number = typeof num === 'string' ? 0 : num;
+
               if (num === ".") {
                 setFloorFlg(true);
-                numBtnHandler(num, true);
+                numBtnHandler(n, rate);
               } else {
-                numBtnHandler(num, floorFlg);
+                floorFlg
+                  ? floorNumHandler(n, rate)
+                  : numBtnHandler(n, rate);
               }
             }}
           >
