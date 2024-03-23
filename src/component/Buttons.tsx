@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Calcs, Operator } from "./index";
 
 type Rate = 10 | 100;
@@ -19,20 +19,9 @@ function Buttons({
     calcs: Calcs;
     setCalcs: (calcs: Calcs) => void;
 }) {
-  const [currentNum, setCurrentNum] = useState<number>(0);
-
-	const resetHndler = () => {
+	const resetHandler = () => {
 		setDisplay("0");
-    setCurrentNum(0);
     setCalcs({firstNum: 0, secondNum: 0, operator: ""});
-  };
-
-	const setNumber = (num: number, type: Type = '*', rate: Rate = 10) => {
-    let current_num = calcs.operator === "" ? calcs.firstNum! : calcs.secondNum!;
-		if (num === 0 && current_num === 0) return;
-    if (type === "*") current_num = current_num * rate + (num !== 0 ? num : 0);
-    if (type === "/") current_num = current_num / rate + (num !== 0 ? num : 0);
-		setCurrentNum(current_num);
   };
 
   const numBtnHandler = (num: number | string) => {
@@ -40,22 +29,24 @@ function Buttons({
     const type: Type = num === "." ? "/" : "*";
     num = typeof num === 'string' ? 0 : num;
 
-    setNumber(num, type, rate);
-  };
+    let current_num = calcs.operator === "" ? calcs.firstNum : calcs.secondNum;
 
-  useEffect(() => {
+		if (num === 0 && current_num === 0) return;
+    if (type === "*") current_num = current_num * rate + (num !== 0 ? num : 0);
+    if (type === "/") current_num = current_num / rate + (num !== 0 ? num : 0);
+
     if (calcs.operator === "") {
-      setCalcs({...calcs, firstNum: currentNum });
+      setCalcs({...calcs, firstNum: current_num });
 		} else {
-      setCalcs({...calcs, secondNum: currentNum });
+      setCalcs({...calcs, secondNum: current_num });
     }
 
-    setDisplay(currentNum.toString());
-  }, [currentNum]);
+    setDisplay(current_num.toString());
+  };
 
   return (
     <div>
-      <button onClick={resetHndler}> C・CE</button>
+      <button onClick={resetHandler}> C </button>
 
       {[1, 2, 3, 4, 5, 6, 7, 8, 9, 0, "00", "."].map((num) => {
         return (
