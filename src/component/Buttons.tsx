@@ -18,7 +18,9 @@ function Buttons({
     setDisplay: (display: string) => void;
     calcs: Calcs;
     setCalcs: (calcs: Calcs) => void;
-}) {
+  }) {
+    const [autoFlg, setAutoFlg] = useState(false);
+
 	const resetHandler = () => {
 		setDisplay("0");
     setCalcs({firstNum: 0, secondNum: 0, operator: ""});
@@ -31,7 +33,11 @@ function Buttons({
 
     let current_num = calcs.operator === "" ? calcs.firstNum : calcs.secondNum;
 
-		if (num === 0 && current_num === 0) return;
+    if (num === 0 && current_num === 0) return;
+    if (autoFlg) {
+      setAutoFlg(false);
+      current_num = 0;
+    }
     if (type === "*") current_num = current_num * rate + (num !== 0 ? num : 0);
     if (type === "/") current_num = current_num / rate + (num !== 0 ? num : 0);
 
@@ -73,6 +79,7 @@ function Buttons({
         onClick={() => {
           const answer = calcAnswer(calcs.firstNum, calcs.secondNum, calcs.operator as Operator);
           setDisplay(answer.toString());
+          setAutoFlg(true);
           setCalcs({ firstNum: answer, secondNum: calcs.secondNum, operator: calcs.operator});
         }}
       >
