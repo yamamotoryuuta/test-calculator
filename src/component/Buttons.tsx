@@ -29,7 +29,7 @@ function Buttons({
 
 
   const optHandler = (op: Operator) => {
-    if (calcs.operator !== "" && calcs.operator !== op) {
+    if (calcs.operator !== "" && calcs.secondNum !== 0) {
       const answer = calcAnswer(calcs.firstNum, calcs.secondNum, calcs.operator as Operator);
       setDisplay(answer.toString());
       setAutoFlg(true);
@@ -92,6 +92,7 @@ export default Buttons;
 
 function calcAnswer(firstNum: number, secondNum: number, operator: Operator) {
   let answer = 0;
+
   if (operator === "+") {
     answer = firstNum + secondNum;
   } else if (operator === "-") {
@@ -101,5 +102,5 @@ function calcAnswer(firstNum: number, secondNum: number, operator: Operator) {
   } else if (operator === "/") {
     answer = firstNum / secondNum;
   }
-  return answer;
+  return answer === Infinity ? 0 : answer;
 }
