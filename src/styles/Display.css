@@ -1,0 +1,35 @@
+.display-block {
+  margin-bottom: 16px;
+}
+
+.display-block p:not(.display__operator) {
+  margin: 0;
+  margin-bottom: 14px;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+  text-align: right;
+  color: #333;
+  line-height: 1.5;
+  overflow: hidden;
+}
+
+.display-block p:last-child {
+  margin-bottom: 0;
+}
+
+.display__operator {
+  text-align: center;
+  opacity: 0.2;
+  margin: 0;
+  margin-bottom: 14px;
+}
+
+.display__operator.display__operator--active {
+  opacity: 1;
+}

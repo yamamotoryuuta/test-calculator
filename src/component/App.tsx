@@ -10,8 +10,10 @@ function App() {
 
 	return (
     <div className="App">
-      <Display display={display} calcs={ calcs } />
-      <Buttons setDisplay={setDisplay} calcs={calcs} setCalcs={setCalcs} />
+      <div className="App-inner">
+        <Display display={display} calcs={ calcs } />
+        <Buttons setDisplay={setDisplay} calcs={calcs} setCalcs={setCalcs} />
+      </div>
 		</div>
 	);
 }

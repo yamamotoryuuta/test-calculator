@@ -1,3 +1,4 @@
+import styled from "styled-components";
 import { useState } from "react";
 import { Calcs, Operator } from "./index";
 
