@@ -51,6 +51,11 @@ function Buttons({
     }
   }
 
+  /**
+   * 数字ボタンの処理：数字をセットする（整数）
+   * @param num 数字
+   * @param rate 割る数
+   */
   const numBtnHandler = (num: number, rate: Rate) => {;
     let current_num = calcs.operator === "" ? calcs.firstNum : calcs.secondNum;
     if (num === 0 && current_num === 0) return;
