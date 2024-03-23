@@ -1,15 +1,13 @@
+import { Calcs } from "./index";
 
-function Display({
-  display,
-  operator,
-}: {
-    display: string;
-    operator: string;
-}) {
-  return (
-    <p>
-    合計: {display} <span>{operator}</span>
-    </p>
-  )
+function Display({ display, calcs }: { display: string; calcs: Calcs }) {
+	return (
+		<div>
+			<p>{calcs.firstNum}</p>
+			<p>{calcs.operator}</p>
+			<p>{calcs.secondNum}</p>
+			<p>{display}</p>
+		</div>
+	);
 }
 export default Display;

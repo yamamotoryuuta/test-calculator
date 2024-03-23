@@ -41,7 +41,7 @@ function Buttons({
       setCalcs({...calcs, secondNum: current_num });
     }
 
-    setDisplay(current_num.toString());
+    // setDisplay(current_num.toString());
   };
 
   return (
@@ -73,7 +73,7 @@ function Buttons({
         onClick={() => {
           const answer = calcAnswer(calcs.firstNum, calcs.secondNum, calcs.operator as Operator);
           setDisplay(answer.toString());
-          setCalcs({ firstNum: answer, secondNum: 0, operator: calcs.operator});
+          setCalcs({ firstNum: answer, secondNum: calcs.secondNum, operator: calcs.operator});
         }}
       >
         =
