@@ -13,7 +13,6 @@ function Buttons({
     setCalcs: (calcs: Calcs) => void;
   }) {
   const [autoFlg, setAutoFlg] = useState(false);
-  const [floorFlg, setFloorFlg] = useState(false);
   const [prev, setPrev] = useState<PrevBtn>('');
 
   /**
@@ -22,7 +21,6 @@ function Buttons({
 	const resetHandler = () => {
     setDisplay("0");
     setAutoFlg(false);
-    setFloorFlg(false);
     setCalcs({firstNum: "0", secondNum: "0", operator: "_"});
   };
 
@@ -64,13 +62,14 @@ function Buttons({
    */
   const numBtnHandler = (num: string) => {;
     let current_num: string = calcs.operator === "_" ? calcs.firstNum : calcs.secondNum;
-    if (num === "0" && current_num === "0") return;
+    if(num === '.' && current_num.includes('.')) return;
+    if ((num === "0" || num === "00") && current_num === "0") return;
 
     if (autoFlg) {
       setAutoFlg(false);
       current_num = "0";
     }
-    current_num = current_num === "0" ? num : current_num + num;
+    current_num = current_num === "0" ? num : `${ current_num }${ num }`;
 
     if (calcs.operator === "_") {
       setCalcs({...calcs, firstNum: current_num });
@@ -79,53 +78,15 @@ function Buttons({
     }
   };
 
-  // const floorNumHandler = (num: number, rate: Rate) => {
-  //   let current_num = calcs.operator === "" ? calcs.firstNum : calcs.secondNum;
-  //   if (num === 0 && current_num === 0) return;
-
-  //   if (autoFlg) {
-  //     setAutoFlg(false);
-  //     current_num = 0;
-  //   }
-
-  //   if ( current_num === 0) {
-  //     current_num = num / rate;
-  //   } else {
-  //     current_num = current_num + (num !== 0 ? num / rate : 0);
-  //   }
-
-  //   if (calcs.operator === "") {
-  //     setCalcs({...calcs, firstNum: current_num });
-  //   } else {
-  //     setCalcs({...calcs, secondNum: current_num });
-  //   }
-  // };
-
-  const NumberMarge = (text: string) => {
-
-  };
-
   return (
     <div>
       {/* リセットボタン */}
       <button onClick={resetHandler}> C </button>
 
       {/* 数字ボタン */}
-      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 0, "00", "."].map((num) => {
+      {["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "00", "."].map((num) => {
         return (
-          <button key={num}
-            onClick={() => {
-              if (num === ".") {
-                setFloorFlg(true);
-                // numBtnHandler(n, rate);
-              } else {
-                // floorFlg
-                //   ? floorNumHandler(n, rate)
-                //   : numBtnHandler(num.toString());
-                  numBtnHandler(num.toString());
-              }
-            }}
-          >
+          <button key={num} onClick={ numBtnHandler.bind(null, num)}>
             {num}
           </button>
         );
