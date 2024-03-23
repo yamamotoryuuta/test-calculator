@@ -1,6 +1,6 @@
-import styled from "styled-components";
 import { useState } from "react";
 import { Calcs, Operator } from "./index";
+import '../styles/Buttons.css';
 
 type PrevBtn = "" | "=" | "opt";
 
@@ -61,7 +61,7 @@ function Buttons({
   }
 
   /**
-   * 数字ボタンの処理：数字をセットする（整数）
+   * 数字ボタンの処理：数字をセットする
    * @param num 数字
    * @param rate 割る数
    */
@@ -84,30 +84,34 @@ function Buttons({
   };
 
   return (
-    <div>
-      {/* リセットボタン */}
-      <button onClick={resetHandler}> C・CE </button>
+    <div className="buttons-block">
+      <div className="buttons-block__row is__number">
+        {/* 数字ボタン */}
+        {["7", "8", "9", "4", "5", "6", "1", "2", "3", "0", "00", "."].map((num) => {
+          return (
+            <button key={num} onClick={ numBtnHandler.bind(null, num)}>
+              {num}
+            </button>
+          );
+        })}
+      </div>
 
-      {/* 数字ボタン */}
-      {["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "00", "."].map((num) => {
-        return (
-          <button key={num} onClick={ numBtnHandler.bind(null, num)}>
-            {num}
-          </button>
-        );
-      })}
+      <div className="buttons-block__row is__op">
+        {/* リセットボタン */}
+        <button className="reset" onClick={resetHandler}>C・CE</button>
 
-      {/* 演算子ボタン */}
-      {["+", "-", "*", "/"].map((op) => {
-        return (
-          <button key={op} onClick={ optHandler.bind(null, op as Operator)}>
-            {op}
-          </button>
-        );
-      })}
+        {/* 演算子ボタン */}
+        {["+", "-", "*", "/"].map((op) => {
+          return (
+            <button key={op} onClick={ optHandler.bind(null, op as Operator)}>
+              {op}
+            </button>
+          );
+        })}
 
-      {/* =ボタン */}
-      <button onClick={calcHandler}> = </button>
+        {/* =ボタン */}
+        <button className="answer" onClick={calcHandler}> = </button>
+      </div>
     </div>
   );
 }

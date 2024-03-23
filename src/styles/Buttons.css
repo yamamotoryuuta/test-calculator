@@ -1,0 +1,45 @@
+.buttons-block {
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttons-block button {
+  cursor: pointer;
+}
+
+.buttons-block__row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -10px;
+  margin-bottom: -10px;
+}
+
+.buttons-block__row button {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 1;
+  padding: 10px 0;
+}
+
+.buttons-block__row.is__number {
+  width: 70%;
+}
+
+.buttons-block__row.is__number button {
+  width: calc((100% - 30px) / 3);
+}
+
+.buttons-block__row.is__op {
+  width: 30%;
+}
+
+.buttons-block__row.is__op button {
+  width: calc((100% - 20px) / 2);
+}
+
+.buttons-block__row.is__op button.reset,
+.buttons-block__row.is__op button.answer {
+  width: 100%;
+}
