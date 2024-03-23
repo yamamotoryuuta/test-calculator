@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Calcs, Operator } from "./index";
 
 type Rate = 10 | 100;
+type PrevBtn = "" | "=" | "opt";
 
 function Buttons({
   setDisplay,
@@ -14,6 +15,7 @@ function Buttons({
   }) {
   const [autoFlg, setAutoFlg] = useState(false);
   const [floorFlg, setFloorFlg] = useState(false);
+  const [prev, setPrev] = useState<PrevBtn>('');
 
   /**
    * リセットボタンの処理：表示を0にする　cボタン
@@ -32,6 +34,7 @@ function Buttons({
     const answer = calcAnswer(calcs.firstNum, calcs.secondNum, calcs.operator as Operator);
     setDisplay(answer.toString());
     setAutoFlg(true);
+    setPrev("=");
     setCalcs({ firstNum: answer, secondNum: calcs.secondNum, operator: calcs.operator});
   }
 
@@ -41,13 +44,18 @@ function Buttons({
    */
   const optHandler = (op: Operator) => {
     if (calcs.operator !== "" && calcs.secondNum !== 0) {
-      const answer = calcAnswer(calcs.firstNum, calcs.secondNum, calcs.operator as Operator);
-      setDisplay(answer.toString());
-      setAutoFlg(true);
-      setCalcs({ firstNum: answer, secondNum: 0, operator: op});
+      if (prev === "opt") {
+        const answer = calcAnswer(calcs.firstNum, calcs.secondNum, calcs.operator as Operator);
+        setDisplay(answer.toString());
+        setAutoFlg(true);
+        setCalcs({ firstNum: answer, secondNum: 0, operator: op });
+      } else if (prev === "=") {
+        setCalcs({ firstNum: calcs.firstNum, secondNum: 0, operator: op });
+      }
     } else {
       setCalcs({ ...calcs, operator: op });
     }
+    setPrev("opt");
   }
 
   /**
