@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Calcs, Operator } from "./index";
 
 type Rate = 10 | 100;
-type Type = "*" | "/";
 
 function Buttons({
   setDisplay,
