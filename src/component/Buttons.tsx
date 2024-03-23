@@ -20,6 +20,25 @@ function Buttons({
     setCalcs({firstNum: 0, secondNum: 0, operator: ""});
   };
 
+  const calcHandler = () => {
+    const answer = calcAnswer(calcs.firstNum, calcs.secondNum, calcs.operator as Operator);
+    setDisplay(answer.toString());
+    setAutoFlg(true);
+    setCalcs({ firstNum: answer, secondNum: calcs.secondNum, operator: calcs.operator});
+  }
+
+
+  const optHandler = (op: Operator) => {
+    if (calcs.operator !== "" && calcs.operator !== op) {
+      const answer = calcAnswer(calcs.firstNum, calcs.secondNum, calcs.operator as Operator);
+      setDisplay(answer.toString());
+      setAutoFlg(true);
+      setCalcs({ firstNum: answer, secondNum: 0, operator: op});
+    } else {
+      setCalcs({ ...calcs, operator: op });
+    }
+  }
+
   const numBtnHandler = (num: number | string) => {
     const rate: Rate = num === "00" ? 100 : 10;
     const type: Type = num === "." ? "/" : "*";
@@ -58,26 +77,14 @@ function Buttons({
 
       {["+", "-", "*", "/"].map((op) => {
         return (
-          <button key={op} onClick={() => {
-              setCalcs({ ...calcs, operator: op as Operator});
-            }}
-          >
+          <button key={op} onClick={ optHandler.bind(null, op as Operator)}>
             {op}
           </button>
         );
       })}
 
-      <button
-        onClick={() => {
-          const answer = calcAnswer(calcs.firstNum, calcs.secondNum, calcs.operator as Operator);
-          setDisplay(answer.toString());
-          setAutoFlg(true);
-          setCalcs({ firstNum: answer, secondNum: calcs.secondNum, operator: calcs.operator});
-        }}
-      >
-        =
-      </button>
-      </div>
+      <button onClick={calcHandler}> = </button>
+    </div>
   );
 }
 export default Buttons;
