@@ -18,10 +18,14 @@ function Buttons({
   /**
    * リセットボタンの処理：表示を0にする　cボタン
    */
-	const resetHandler = () => {
-    setDisplay("0");
-    setAutoFlg(false);
-    setCalcs({firstNum: "0", secondNum: "0", operator: "_"});
+  const resetHandler = () => {
+    if (calcs.secondNum !== "0") {
+      setCalcs({ ...calcs, secondNum: "0" });
+    } else {
+      setDisplay("0");
+      setAutoFlg(false);
+      setCalcs({firstNum: "0", secondNum: "0", operator: "_"});
+    }
   };
 
   /**
@@ -81,7 +85,7 @@ function Buttons({
   return (
     <div>
       {/* リセットボタン */}
-      <button onClick={resetHandler}> C </button>
+      <button onClick={resetHandler}> C・CE </button>
 
       {/* 数字ボタン */}
       {["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "00", "."].map((num) => {
